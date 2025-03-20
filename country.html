@@ -1,0 +1,81 @@
+//country.html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #cont {
+            display: grid;
+            margin: 10px;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto;
+            gap: 20px;
+        }
+
+        #cont>div {
+            padding: 20px;
+            margin: 10px;
+            box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+        }
+
+        img {
+            height: 300px;
+            width: 100%;
+        }
+
+        @media screen and (max-width:900px) {
+            #cont {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (max-width:500px) and  (min-width:300px) {
+            #cont {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cont"></div>
+</body>
+
+</html>
+
+<script>
+    let bag = []
+    async function getData() {
+        let res = await fetch("https://restcountries.com/v3.1/all")
+        let data = await res.json()
+        console.log(data)
+        displayholi(data)
+    }
+    getData()
+
+    function displayholi(data) {
+        data.forEach((el) => {
+            let box = document.createElement("div");
+
+            let flag = document.createElement("img")
+            flag.setAttribute("src", el.flags.png)
+
+            let name = document.createElement("h1")
+            name.innerText = el.name.common
+
+            let population = document.createElement("p")
+            population.innerText = el.population
+
+
+            let region = document.createElement("p")
+            region.innerText = el.region
+
+            box.append(flag, name, population, region)
+            document.querySelector("#cont").append(box)
+        })
+
+    }
+</script>
